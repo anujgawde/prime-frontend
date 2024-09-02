@@ -1,9 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "https://prime-backend-six.vercel.app/api/";
-
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: `${process.env.REACT_APP_BASE_URL}/api/`,
 });
 
 export const getAllDocuments = async (userId) => {

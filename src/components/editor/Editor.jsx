@@ -36,7 +36,7 @@ export default function EditorComponent({
 
   //   Socket Connection:
   useEffect(() => {
-    const s = io("https://prime-backend-six.vercel.app", {
+    const s = io(process.env.REACT_APP_BASE_URL, {
       path: "/socket.io", // Must match the server path
     });
     setSocket(s);

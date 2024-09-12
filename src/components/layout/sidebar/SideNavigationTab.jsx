@@ -17,6 +17,7 @@ export default function SideNavigationTab(props) {
 
   return (
     <Link
+      onClick={() => props?.callbackFunction && props?.callbackFunction?.()}
       className={`rounded-xl hover:bg-gray-200 ${
         props.isTabActive && "bg-gray-200"
       } py-4 cursor-pointer px-4 flex items-center space-x-4 z-100`}

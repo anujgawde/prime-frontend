@@ -18,7 +18,6 @@ export default function TemplateEditorPage() {
 
   useEffect(() => {
     const pathName = location.pathname;
-    console.log(id, pathName);
     if (pathName.includes("templates") && id) {
       setSocketIdentifier("template");
     } else if (pathName.includes("documents") && id) {

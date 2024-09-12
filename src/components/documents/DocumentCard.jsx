@@ -5,7 +5,6 @@ import BaseMenu from "../base/BaseMenu";
 const DocumentCard = (props) => {
   const documentLineHex =
     props.identifier === "template" ? "#FED8B1" : "#D2E5F6";
-  console.log(props.identifier);
 
   return (
     <div className="bg-white rounded-2xl flex flex-col">

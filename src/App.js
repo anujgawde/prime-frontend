@@ -8,12 +8,16 @@ import TemplatesPage from "./pages/templates";
 import DocumentsPage from "./pages/documents";
 import TemplateEditorPage from "./pages/templates/template-editor";
 import DocumentEditorPage from "./pages/documents/document-editor";
+import InfoPage from "./pages/info";
+import ComingSoonPage from "./pages/coming-soon";
 
 function App() {
   return (
     <div className="h-screen overflow-y-auto">
       <Routes>
         <Route path="/" element={<Navigate to={`/dashboard`} />} />
+        <Route path="/info" element={<InfoPage />} />
+        <Route path="/coming-soon" element={<ComingSoonPage />} />
         <Route
           path="/auth"
           element={

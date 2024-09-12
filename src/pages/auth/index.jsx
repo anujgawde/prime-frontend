@@ -11,13 +11,14 @@ import { createUser } from "../../api/users";
 import React from "react";
 import BaseDialog from "../../components/base/BaseDialog";
 import { useNavigate } from "react-router-dom";
+import BaseLoader from "../../components/base/BaseLoader";
 
 export default function AuthPage() {
   const navigate = useNavigate();
   // Variables:
   const [isNewUser, setIsNewUser] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [newUserData, setNewUserData] = useState({
     fullName: null,
     email: null,
@@ -35,6 +36,7 @@ export default function AuthPage() {
     event.preventDefault();
 
     try {
+      setIsLoading(true);
       const signupResponse = await createUserWithEmailAndPasswordHandler(
         newUserData.email,
         newUserData.password
@@ -43,7 +45,7 @@ export default function AuthPage() {
         _id: signupResponse.user.uid,
         basicInformation: {
           firstName: newUserData.fullName?.split(" ")[0],
-          lastName: newUserData.fullName?.split(" ")[1],
+          lastName: newUserData.fullName?.split(" ")[1] ?? "",
           email: newUserData.email,
         },
         contactInformation: {
@@ -59,7 +61,9 @@ export default function AuthPage() {
           employeeId: "",
         },
       });
+      window.location.reload();
       navigate("/");
+      setIsLoading(false);
     } catch (e) {
       // Open Dialog Here
       console.log("now error", e);
@@ -69,16 +73,20 @@ export default function AuthPage() {
 
   const signInHandler = async (event) => {
     event.preventDefault();
-    // const signInData = {
-    //   email: event.target.elements.email,
-    //   password: event.target.elements.password,
-    // };
-    const signInResponse = await signInWithEmailAndPasswordHandler(
-      existingUserData.email,
-      existingUserData.password
-    );
-    window.location.reload();
-    navigate("/dashboard");
+
+    try {
+      setIsLoading(true);
+      const signInResponse = await signInWithEmailAndPasswordHandler(
+        existingUserData.email,
+        existingUserData.password
+      );
+      window.location.reload();
+      navigate("/");
+      setIsLoading(false);
+    } catch (e) {
+      console.log("now error", e);
+      setIsDialogOpen(true);
+    }
   };
 
   const updateFormDataHandler = (event, inputKey) => {
@@ -102,88 +110,98 @@ export default function AuthPage() {
   return (
     <>
       <div className="h-screen w-full bg-white flex items-center justify-center">
-        <div className="mx-8 w-full md:w-2/3 xl:w-1/3 border rounded-xl px-8 py-12 space-y-4 bg-white flex-col flex items-center">
-          <p className="text-4xl font-thin text-center">
-            Prime Reports
-            {/* <span className="italic">Org</span> */}
-          </p>
-          <BaseInput
-            name="fullName"
-            isHidden={!isNewUser}
-            placeHolder="John Doe"
-            label="Full Name"
-            errorText=""
-            onChange={(event) => updateFormDataHandler(event, "fullName")}
-            type={undefined}
-          />
-          <BaseInput
-            name="email"
-            placeHolder="johndoe@placeholder.com"
-            label="Email"
-            errorText=""
-            onChange={(event) => updateFormDataHandler(event, "email")}
-            type={undefined}
-            isHidden={undefined}
-          />
-          <BaseInput
-            name="phone"
-            isHidden={!isNewUser}
-            placeHolder="+91 9999999999"
-            label="Phone"
-            errorText=""
-            onChange={(event) => updateFormDataHandler(event, "phone")}
-            type={undefined}
-          />
-          <BaseInput
-            name="password"
-            placeHolder=""
-            label="Password"
-            errorText=""
-            onChange={(event) => updateFormDataHandler(event, "password")}
-            type="password"
-            isHidden={undefined}
-          />
-          <BaseInput
-            name="confirmPassword"
-            isHidden={!isNewUser}
-            placeHolder=""
-            label="Confirm Password"
-            errorText=""
-            onChange={(event) =>
-              updateFormDataHandler(event, "confirmPassword")
-            }
-            type={undefined}
-          />
-          <BaseButton
-            customClasses="w-full"
-            buttonText={isNewUser ? `Sign Up` : `Sign In`}
-            onClick={isNewUser ? signupHandler : signInHandler}
-            type={undefined}
-          />
-          {!isNewUser ? (
-            <p>
-              Don&apos;t have an account yet?{" "}
-              <span
-                className="cursor-pointer underline"
-                onClick={() => setIsNewUser(!isNewUser)}
-              >
-                Sign Up!
-              </span>
+        {isLoading ? (
+          <BaseLoader />
+        ) : (
+          <div
+            className={`${
+              isLoading && "hidden"
+            } mx-4 md:mx-8 w-full md:w-2/3 xl:w-1/3 border-0 md:border rounded-xl md:px-8 py-12 space-y-4 md:space-y-4 bg-white flex-col flex items-center`}
+          >
+            <p className="text-4xl font-thin text-center">
+              Prime Reports
+              {/* <span className="italic">Org</span> */}
             </p>
-          ) : (
-            <p>
-              Already a user?{" "}
-              <span
-                className="cursor-pointer underline"
-                onClick={() => setIsNewUser(!isNewUser)}
-              >
-                Sign in!
-              </span>
-            </p>
-          )}
-        </div>
+            <BaseInput
+              name="fullName"
+              isHidden={!isNewUser}
+              placeHolder="John Doe"
+              label="Full Name"
+              errorText=""
+              onChange={(event) => updateFormDataHandler(event, "fullName")}
+              type={undefined}
+            />
+            <BaseInput
+              name="email"
+              placeHolder="johndoe@placeholder.com"
+              label="Email"
+              errorText=""
+              onChange={(event) => updateFormDataHandler(event, "email")}
+              type={undefined}
+              isHidden={undefined}
+            />
+            <BaseInput
+              name="phone"
+              isHidden={!isNewUser}
+              placeHolder="+91 9999999999"
+              label="Phone"
+              errorText=""
+              onChange={(event) => updateFormDataHandler(event, "phone")}
+              type={undefined}
+            />
+            <BaseInput
+              name="password"
+              placeHolder="Must have at least 6 characters"
+              label="Password"
+              errorText=""
+              onChange={(event) => updateFormDataHandler(event, "password")}
+              type="password"
+              isHidden={undefined}
+            />
+            <BaseInput
+              name="confirmPassword"
+              isHidden={!isNewUser}
+              placeHolder=""
+              label="Confirm Password"
+              errorText=""
+              onChange={(event) =>
+                updateFormDataHandler(event, "confirmPassword")
+              }
+              type={undefined}
+            />
+            <BaseButton
+              customClasses="w-full"
+              buttonText={isNewUser ? `Sign Up` : `Sign In`}
+              onClick={isNewUser ? signupHandler : signInHandler}
+              type={undefined}
+            />
+            {!isNewUser ? (
+              <p>
+                Don&apos;t have an account yet?{" "}
+                <span
+                  className="cursor-pointer underline"
+                  onClick={() => setIsNewUser(!isNewUser)}
+                >
+                  Sign Up!
+                </span>
+              </p>
+            ) : (
+              <p>
+                Already a user?{" "}
+                <span
+                  className="cursor-pointer underline"
+                  onClick={() => setIsNewUser(!isNewUser)}
+                >
+                  Sign in!
+                </span>
+              </p>
+            )}
+          </div>
+        )}
       </div>
+
       <BaseDialog
+        contentContainerClasses="py-4 text-xs md:text-l"
         toggleDialog={toggleDialog}
         isOpen={isDialogOpen}
         text="Please check if all the fields entered are correct!"

@@ -11,7 +11,6 @@ export default function DocumentEditorPage() {
   const [documentName, setDocumentName] = useState("Untitled Document");
 
   const onTitleBlur = () => {
-    console.log(documentName);
     if (!documentName || !documentName.length > 0) {
       setDocumentName("Untitled Document");
     }
@@ -27,7 +26,6 @@ export default function DocumentEditorPage() {
   }, [location.pathname]);
 
   const updateDocumentName = (updatedName) => {
-    console.log(updatedName);
     setDocumentName(updatedName);
   };
 

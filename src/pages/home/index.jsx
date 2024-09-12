@@ -14,6 +14,7 @@ import {
   Legend,
 } from "chart.js";
 import { getUserDocsAggregate } from "../../api/users";
+import { useNavigate } from "react-router-dom";
 
 // Register necessary components for the chart
 ChartJS.register(
@@ -30,7 +31,7 @@ export default function HomePage() {
   const [topTemplates, setTopTemplates] = useState([]);
   const [chartData, setChartData] = useState();
   const [chartOptions, setChartOptions] = useState();
-
+  const navigate = useNavigate();
   // Recent 10 Documents
   const fetchRecentDocuments = async (userId) => {
     const recentDocumentResponse = await getRecentDocuments(userId);
@@ -97,12 +98,12 @@ export default function HomePage() {
     fetchAggregateDocuments(auth.currentUser._id);
   }, []);
   return (
-    <div className=" p-10">
+    <div className="p-4 md:p-10">
       {/* <Link to={`/documents/${uuidv4()}`}>
         <BaseButton buttonText="Create Template" />
       </Link> */}
 
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 gap-8">
         {/* Recent 10 Documents */}
         <div className="bg-white rounded-xl">
           {/* Section Title */}
@@ -113,6 +114,11 @@ export default function HomePage() {
           <div className="h-52 max-h-52 overflow-y-auto">
             {recentDocuments.map((recentDocument) => (
               <div
+                onClick={() =>
+                  navigate(
+                    `/documents/${recentDocument.templateId}/${recentDocument._id}`
+                  )
+                }
                 key={recentDocument._id}
                 className="w-full py-2 hover:bg-gray-200 px-8 cursor-pointer"
               >
@@ -131,9 +137,10 @@ export default function HomePage() {
             Most Used Templates
           </div>
           {/* Section Content */}
-          <div className="overflow-y-auto">
+          <div className="overflow-y-auto h-52 max-h-52">
             {topTemplates.map((topTemplate) => (
               <div
+                onClick={() => navigate(`/templates/${topTemplate._id}`)}
                 key={topTemplate._id}
                 className="w-full py-2 hover:bg-gray-200 px-8 cursor-pointer"
               >
@@ -147,7 +154,7 @@ export default function HomePage() {
         </div>
 
         {/* Chart */}
-        <div className="">
+        <div className="bg-white rounded-xl p-4">
           {chartData && chartOptions && (
             <Bar data={chartData} options={chartOptions} />
           )}

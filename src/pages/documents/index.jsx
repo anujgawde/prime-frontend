@@ -38,7 +38,7 @@ export default function DocumentsPage() {
           onClick={() => setIsDocumentDialogOpen(true)}
         />
       </div>
-      <div className="py-8 px-8 grid grid-cols-4 gap-4">
+      <div className="py-8 px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {documents.map((document, index) => (
           <DocumentCard
             id={document._id}

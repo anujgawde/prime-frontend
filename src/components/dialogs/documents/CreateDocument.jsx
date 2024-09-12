@@ -28,35 +28,43 @@ export default function CreateDocument({
 
   const closeDialog = () => {
     toggleDialog();
-    navigate(`/documents/${activeDocument._id}/${uuidv4()}`);
+  };
+
+  const createDocument = () => {
+    if (activeDocument._id) {
+      toggleDialog();
+      navigate(`/documents/${activeDocument._id}/${uuidv4()}`);
+    }
   };
   return (
-    <div>
-      <div className="z-10 fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-100">
-        <div className="bg-white rounded-lg shadow-lg w-3/4 md:w-1/2 lg:w-1/3 p-4 relative  h-1/4 flex flex-col justify-between z-100">
-          {/* Dialog Header */}
-          <div className="text-xl">
-            Please select a template for the document
-          </div>
+    <div
+      onClick={closeDialog}
+      className="z-50 fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center"
+    >
+      <div
+        className="bg-white rounded-lg shadow-lg w-3/4 md:w-1/2 lg:w-1/3 p-4 relative h-1/4 flex flex-col justify-between"
+        onClick={(e) => e.stopPropagation()} // Prevent click event from bubbling up to the parent div
+      >
+        {/* Dialog Header */}
+        <div className="text-xl">Please select a template for the document</div>
 
-          {/* Dialog Content */}
-          <div>{text}</div>
+        {/* Dialog Content */}
+        <div>{text}</div>
 
-          <BaseDropdown activeDocument={activeDocument}>
-            {templates.map((template, index) => (
-              <button
-                key={index}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-100 border-none "
-                onClick={() => setActiveDocument(template)}
-              >
-                {template.name}
-              </button>
-            ))}
-          </BaseDropdown>
+        <BaseDropdown activeDocument={activeDocument}>
+          {templates.map((template, index) => (
+            <button
+              key={index}
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100 border-none"
+              onClick={() => setActiveDocument(template)}
+            >
+              {template.name}
+            </button>
+          ))}
+        </BaseDropdown>
 
-          {/* Dialog CTA */}
-          <BaseButton buttonText="Create!" onClick={closeDialog} />
-        </div>
+        {/* Dialog CTA */}
+        <BaseButton buttonText="Create!" onClick={createDocument} />
       </div>
     </div>
   );

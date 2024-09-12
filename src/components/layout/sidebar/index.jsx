@@ -44,6 +44,16 @@ export default function Sidebar() {
         setIsCreateDocumentOpen(true);
       },
     },
+    {
+      label: "What's Prime?",
+      navigateTo: "/info",
+      icon: "/icons/base/info.svg",
+    },
+    {
+      label: "Coming Soon!",
+      navigateTo: "/coming-soon",
+      icon: "/icons/base/book-marked.svg",
+    },
   ];
 
   useEffect(() => {
@@ -51,19 +61,21 @@ export default function Sidebar() {
     const hiddenValue =
       (location.pathname.includes("/templates") && splitHrefLength === 5) ||
       (location.pathname.includes("/documents") && splitHrefLength === 6) ||
-      location.pathname.includes("/auth");
+      location.pathname.includes("/auth") ||
+      location.pathname.includes("/coming-soon") ||
+      location.pathname.includes("/info");
     setIsHidden(hiddenValue);
   }, [location.pathname]);
 
   return (
     <div
-      className={`w-1/5 bg-white h-screen left-0 top-0 bottom-0  flex-col items-center justify-between border-r ${
+      className={`md:w-2/5 lg:w-1/4 xl:w-1/5 bg-white h-screen left-0 top-0 bottom-0 flex-col items-center justify-between border-r ${
         isHidden ? "hidden" : "flex"
       }`}
     >
       <div>
         <div className="flex items-center justify-center h-[80px]">
-          <p className="font-thin text-4xl justify-around flex w-full px-8">
+          <p className="font-thin text-4xl justify-around md:flex w-full px-8 hidden">
             <span className="text-primary">P</span>
             <span>R</span>
             <span>I</span>
@@ -72,7 +84,7 @@ export default function Sidebar() {
           </p>
         </div>
 
-        <div className="px-4 space-y-4 py-4">
+        <div className="lg:px-4 space-y-4 py-4 md:block hidden">
           {sideNavigationTabs.map((sideNavigationTab, index) => (
             <SideNavigationTab
               key={index}
@@ -86,9 +98,9 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <p className="text-gray-400 py-8">
+      {/* <p className="text-gray-400 py-8">
         version <span className="text-sm">1</span>
-      </p>
+      </p> */}
 
       {isCreateDocumentOpen && (
         <CreateDocument

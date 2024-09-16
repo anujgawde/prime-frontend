@@ -6,6 +6,7 @@ import BaseMenu from "./base/BaseMenu";
 import SideNavigationTab from "./layout/sidebar/SideNavigationTab";
 import { v4 as uuidv4 } from "uuid";
 import CreateDocument from "./dialogs/documents/CreateDocument";
+import EditProfile from "./dialogs/profile/EditProfile";
 
 export default function Navbar() {
   const location = useLocation();
@@ -21,6 +22,7 @@ export default function Navbar() {
   const [isHidden, setIsHidden] = useState(false);
   const [userData, setUserData] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [isCreateDocumentOpen, setIsCreateDocumentOpen] = useState(false);
 
   const getUserData = async () => {
@@ -45,6 +47,10 @@ export default function Navbar() {
   const signoutFunc = async () => {
     const res = await signOutHandler();
     navigate("/auth");
+  };
+
+  const openEditProfile = async () => {
+    setEditProfileOpen(true);
   };
 
   const toggleMenu = () => {
@@ -139,25 +145,45 @@ export default function Navbar() {
     <div
       className={`w-full bg-white h-[80px] border-b ${
         isHidden ? "hidden" : ""
-      } items-center flex justify-between px-8`}
+      } items-center justify-between flex  px-8`}
     >
-      <p className="text-2xl">{routeToTitleMap[location.pathname]}</p>
-
+      <div className="space-x-4 flex">
+        <div className="md:hidden flex">
+          <button className="border-none p-0" onClick={toggleMenu}>
+            <img src="/icons/base/menu.svg" />
+          </button>
+        </div>
+        <p className="text-2xl">{routeToTitleMap[location.pathname]}</p>
+      </div>
       {userData && (
-        <div className="items-center space-x-2 md:flex hidden">
+        <div className="items-center space-x-2 flex">
           <div className="flex space-x-2 items-center">
             {/* <img
               className="h-9 w-9"
               src="/icons/base/user/circle-user-round.svg"
             /> */}
-            <p className="text-lg text-black">
-              Hello, {userData?.basicInformation.firstName}
-            </p>
+            <div className="">
+              <p className="text-lg text-black hidden md:block">
+                Hello, {userData?.basicInformation.firstName}
+              </p>
+              <img
+                src="/icons/base/user/circle-user-round.svg"
+                className="h-8 w-8 md:hidden"
+              />
+            </div>
           </div>
           <BaseMenu
             iconSrc="/icons/navbar/chevron-down.svg"
             iconContainerClass="cursor-pointer flex items-center rounded-full "
           >
+            <div>
+              <button
+                onClick={openEditProfile}
+                className="block w-full text-left px-4 py-2 hover:bg-gray-100 border-none"
+              >
+                Edit Profile
+              </button>
+            </div>
             <div>
               <button
                 onClick={signoutFunc}
@@ -170,16 +196,10 @@ export default function Navbar() {
         </div>
       )}
 
-      <div className="md:hidden flex">
-        <button className="border-none" onClick={toggleMenu}>
-          <img src="/icons/base/menu.svg" />
-        </button>
-      </div>
-
       <div
         ref={menuRef}
         className={`h-[100vh] fixed top-0 bottom-0 w-[90%] bg-white transition-all ease-in-out duration-500 md:hidden flex flex-col z-10 ${
-          isMenuOpen ? "right-0" : "right-[-900px]"
+          isMenuOpen ? "left-0" : "left-[-900px]"
         }`}
       >
         <div className="flex justify-between w-full px-8 py-6 ">
@@ -207,6 +227,13 @@ export default function Navbar() {
           user={auth.currentUser}
           isOpen={isCreateDocumentOpen}
           toggleDialog={() => setIsCreateDocumentOpen(false)}
+        />
+      )}
+      {editProfileOpen && (
+        <EditProfile
+          user={auth.currentUser}
+          isOpen={editProfileOpen}
+          toggleDialog={() => setEditProfileOpen(false)}
         />
       )}
     </div>

@@ -194,11 +194,11 @@ export default function EditorComponent({
         className="container w-full mt-[80px]"
         ref={wrapperRef}
       ></div>
-      <button onClick={insertTable}>insert table</button>
+      {/* <button onClick={insertTable}>insert table</button> */}
 
       {/* Button to trigger the camera input */}
 
-      <input
+      {/* <input
         type="file"
         accept="image/*"
         capture="camera"
@@ -207,7 +207,7 @@ export default function EditorComponent({
       />
       <label htmlFor="cameraInput">
         <button>Capture Image</button>
-      </label>
+      </label> */}
     </div>
   );
 }

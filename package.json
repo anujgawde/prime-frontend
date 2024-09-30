@@ -10,6 +10,8 @@
     "chart.js": "^4.4.3",
     "dotenv": "^16.4.5",
     "firebase": "^10.12.3",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
     "quill": "^2.0.0-rc.2",
     "quill-better-table": "^1.2.10",
     "quill-image-resize-module-react": "^3.0.0",

@@ -26,6 +26,11 @@ export default function DocumentsPage() {
     setDocuments(deleteDocumentResponse.data);
   };
 
+  // TODO: Integrate with backend api
+  // const shareHandler = (type, document) => {
+  //   console.log(type, document);
+  // };
+
   useEffect(() => {
     fetchDocuments();
   }, []);
@@ -47,6 +52,9 @@ export default function DocumentsPage() {
             modifiedAt={formatDate(document.modifiedAt)}
             deleteDocumentHandler={deleteDocumentHandler}
             key={index}
+            // share={(type) => {
+            //   shareHandler(type, document);
+            // }}
             identifier="document"
           />
         ))}

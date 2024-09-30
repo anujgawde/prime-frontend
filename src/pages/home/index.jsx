@@ -154,7 +154,7 @@ export default function HomePage() {
         </div>
 
         {/* Chart */}
-        <div className="bg-white rounded-xl p-4">
+        <div className="bg-white rounded-xl p-4 hidden md:block">
           {chartData && chartOptions && (
             <Bar data={chartData} options={chartOptions} />
           )}

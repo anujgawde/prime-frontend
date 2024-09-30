@@ -25,6 +25,10 @@ export default function TemplatesPage() {
     setTemplates(deleteDocumentResponse.data);
   };
 
+  // const shareHandler = (type, template) => {
+  //   console.log(type, template);
+  // };
+
   useEffect(() => {
     fetchTemplates();
   }, []);
@@ -46,6 +50,9 @@ export default function TemplatesPage() {
             key={index}
             deleteDocumentHandler={deleteTemplateHandler}
             identifier="template"
+            // share={(type) => {
+            //   shareHandler(type, template);
+            // }}
           />
         ))}
       </div>

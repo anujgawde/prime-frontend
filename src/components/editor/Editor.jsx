@@ -5,6 +5,8 @@ import ImageResize from "quill-image-resize-module-react";
 import { io } from "socket.io-client";
 import { useParams } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas"; // For rendering HTML to canvas
 window.Quill = Quill;
 Quill.register("modules/imageResize", ImageResize);
 // modules = {
@@ -65,7 +67,7 @@ export default function EditorComponent({
     });
     setQuill(q);
     q.disable();
-    q.setText("Loading the document...");
+    q.setText("Loading...");
   }, []);
 
   //   Emitting Changes:
@@ -182,8 +184,43 @@ export default function EditorComponent({
       case "table":
         insertTable();
         break;
+      case "print":
+        downloadPDF();
+        break;
       default:
         console.log("Unknown button clicked");
+    }
+  };
+
+  const downloadPDF = () => {
+    if (quill) {
+      const content = quill.root; // Get the Quill editor content
+
+      html2canvas(content).then((canvas) => {
+        const pdf = new jsPDF();
+        const imgData = canvas.toDataURL("image/png");
+
+        // Calculate dimensions for the PDF
+        const imgWidth = 190; // PDF width in mm
+        const pageHeight = pdf.internal.pageSize.height;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        const heightLeft = imgHeight;
+
+        let position = 0;
+
+        // Add image to PDF
+        pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+        position += heightLeft;
+
+        // If the image is longer than one page, add another page
+        if (heightLeft >= pageHeight) {
+          pdf.addPage();
+          position = 0;
+          pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+        }
+
+        pdf.save(`${documentName}.pdf`); // Download the PDF
+      });
     }
   };
 
@@ -195,8 +232,6 @@ export default function EditorComponent({
         ref={wrapperRef}
       ></div>
       {/* <button onClick={insertTable}>insert table</button> */}
-
-      {/* Button to trigger the camera input */}
 
       {/* <input
         type="file"

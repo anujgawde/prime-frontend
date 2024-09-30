@@ -53,6 +53,14 @@ export default function DocumentEditorPage() {
         <div className="flex items-center fixed right-5 space-x-4">
           <button
             onClick={() => {
+              handleCustomButtonClick({ type: "print" });
+            }}
+            className="border-none p-0"
+          >
+            <img src="/icons/editor/printer.svg" className="h-5 w-5" />
+          </button>
+          <button
+            onClick={() => {
               handleCustomButtonClick({ type: "table" });
             }}
             className="border-none p-0"

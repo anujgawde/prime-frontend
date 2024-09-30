@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BaseButton from "../../components/base/BaseButton";
 import BaseInput from "../../components/base/BaseInput";
 
@@ -17,7 +17,11 @@ export default function AuthPage() {
   const navigate = useNavigate();
   // Variables:
   const [isNewUser, setIsNewUser] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialog, setDialog] = useState({
+    state: false,
+    content: "",
+    title: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [newUserData, setNewUserData] = useState({
     fullName: null,
@@ -34,9 +38,16 @@ export default function AuthPage() {
   // Functions:
   const signupHandler = async (event) => {
     event.preventDefault();
-
     try {
       setIsLoading(true);
+      if (newUserData.confirmPassword !== newUserData.password) {
+        setDialog({
+          state: true,
+          content: "Passwords don't match",
+          title: "Something went wrong!",
+        });
+        return;
+      }
       const signupResponse = await createUserWithEmailAndPasswordHandler(
         newUserData.email,
         newUserData.password
@@ -67,7 +78,11 @@ export default function AuthPage() {
     } catch (e) {
       // Open Dialog Here
       console.log("now error", e);
-      setIsDialogOpen(true);
+      setDialog({
+        state: true,
+        content: "Please check if all the fields entered are correct!",
+        title: "Something went wrong!",
+      });
     }
   };
 
@@ -85,7 +100,11 @@ export default function AuthPage() {
       setIsLoading(false);
     } catch (e) {
       console.log("now error", e);
-      setIsDialogOpen(true);
+      setDialog({
+        state: true,
+        content: "Please check if all the fields entered are correct!",
+        title: "Something went wrong!",
+      });
     }
   };
 
@@ -103,8 +122,20 @@ export default function AuthPage() {
     }
   };
 
+  useEffect(() => {
+    setDialog({
+      state: true,
+      content:
+        "Due to some undergoing changes in the software, the application may take some time to render.",
+      title: "Notice",
+    });
+  }, []);
+
   const toggleDialog = () => {
-    setIsDialogOpen(!isDialogOpen);
+    setDialog((prevState) => ({
+      ...prevState,
+      state: !prevState.state,
+    }));
   };
 
   return (
@@ -201,10 +232,11 @@ export default function AuthPage() {
       </div>
 
       <BaseDialog
+        title={dialog.title}
         contentContainerClasses="py-4 text-xs md:text-l"
         toggleDialog={toggleDialog}
-        isOpen={isDialogOpen}
-        text="Please check if all the fields entered are correct!"
+        isOpen={dialog.state}
+        text={dialog.content}
       />
     </>
   );

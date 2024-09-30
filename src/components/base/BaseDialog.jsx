@@ -1,7 +1,14 @@
 import React from "react";
 import BaseButton from "./BaseButton";
 
-export default function BaseDialog({ text, type, size, isOpen, toggleDialog }) {
+export default function BaseDialog({
+  text,
+  type,
+  size,
+  isOpen,
+  toggleDialog,
+  title,
+}) {
   if (!isOpen) {
     return null;
   }
@@ -19,9 +26,7 @@ export default function BaseDialog({ text, type, size, isOpen, toggleDialog }) {
         onClick={(e) => e.stopPropagation()} // Prevent click event from bubbling up to the parent div
       >
         {/* Dialog Header */}
-        <div className="text-lg font-semibold md:text-2xl">
-          Something went wrong!
-        </div>
+        <div className="text-lg font-semibold md:text-2xl">{title}</div>
 
         {/* Dialog Content */}
         <div className="text-sm md:text-base">{text}</div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import BaseMenu from "../base/BaseMenu";
 
@@ -11,22 +11,28 @@ const DocumentCard = (props) => {
       <Link to={props.navigate}>
         <div className="py-10 px-8 space-y-4">
           <div
-            className={`w-full h-1 rounded-full bg-[${documentLineHex}]`}
+            style={{ backgroundColor: documentLineHex }}
+            className="w-full h-1 rounded-full"
           ></div>
           <div
-            className={`w-3/4 h-1 rounded-full bg-[${documentLineHex}]`}
+            style={{ backgroundColor: documentLineHex }}
+            className="w-3/4 h-1 rounded-full"
           ></div>
           <div
-            className={`w-full h-1 rounded-full bg-[${documentLineHex}]`}
+            style={{ backgroundColor: documentLineHex }}
+            className="w-full h-1 rounded-full"
           ></div>
           <div
-            className={`w-3/4 h-1 rounded-full  bg-[${documentLineHex}]`}
+            style={{ backgroundColor: documentLineHex }}
+            className="w-3/4 h-1 rounded-full"
           ></div>
           <div
-            className={`w-full h-1 rounded-full bg-[${documentLineHex}]`}
+            style={{ backgroundColor: documentLineHex }}
+            className="w-full h-1 rounded-full"
           ></div>
           <div
-            className={`w-3/4 h-1 rounded-full  bg-[${documentLineHex}]`}
+            style={{ backgroundColor: documentLineHex }}
+            className="w-3/4 h-1 rounded-full"
           ></div>
         </div>
       </Link>
@@ -38,6 +44,13 @@ const DocumentCard = (props) => {
 
         <div className="flex items-center">
           <BaseMenu iconSrc="/icons/base/ellipsis.svg">
+            {/* TODO: Integrate with backend api for sending emails */}
+            {/* <button
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100 border-none text-black"
+              onClick={() => props.share("email")}
+            >
+              Share via Email
+            </button> */}
             <button
               className="block w-full text-left px-4 py-2 hover:bg-gray-100 border-none text-red-600"
               onClick={() => props.deleteDocumentHandler(props.id)}

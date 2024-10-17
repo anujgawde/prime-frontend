@@ -6,7 +6,7 @@ import BaseMenu from "./base/BaseMenu";
 import SideNavigationTab from "./layout/sidebar/SideNavigationTab";
 import { v4 as uuidv4 } from "uuid";
 import CreateDocument from "./dialogs/documents/CreateDocument";
-import EditProfile from "./dialogs/profile/EditProfile";
+import ViewProfile from "./dialogs/profile/ViewProfile";
 
 export default function Navbar() {
   const location = useLocation();
@@ -22,7 +22,7 @@ export default function Navbar() {
   const [isHidden, setIsHidden] = useState(false);
   const [userData, setUserData] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [editProfileOpen, setEditProfileOpen] = useState(false);
+  const [viewProfileOpen, setViewProfileOpen] = useState(false);
   const [isCreateDocumentOpen, setIsCreateDocumentOpen] = useState(false);
 
   const getUserData = async () => {
@@ -49,8 +49,8 @@ export default function Navbar() {
     navigate("/auth");
   };
 
-  const openEditProfile = async () => {
-    setEditProfileOpen(true);
+  const openViewProfile = async () => {
+    setViewProfileOpen(true);
   };
 
   const toggleMenu = () => {
@@ -178,10 +178,10 @@ export default function Navbar() {
           >
             <div>
               <button
-                onClick={openEditProfile}
+                onClick={openViewProfile}
                 className="block w-full text-left px-4 py-2 hover:bg-gray-100 border-none"
               >
-                Edit Profile
+                View Profile
               </button>
             </div>
             <div>
@@ -229,11 +229,11 @@ export default function Navbar() {
           toggleDialog={() => setIsCreateDocumentOpen(false)}
         />
       )}
-      {editProfileOpen && (
-        <EditProfile
+      {viewProfileOpen && (
+        <ViewProfile
           user={auth.currentUser}
-          isOpen={editProfileOpen}
-          toggleDialog={() => setEditProfileOpen(false)}
+          isOpen={viewProfileOpen}
+          toggleDialog={() => setViewProfileOpen(false)}
         />
       )}
     </div>

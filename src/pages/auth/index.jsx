@@ -122,15 +122,6 @@ export default function AuthPage() {
     }
   };
 
-  useEffect(() => {
-    setDialog({
-      state: true,
-      content:
-        "Due to some undergoing changes in the software, the application may take some time to render.",
-      title: "Notice",
-    });
-  }, []);
-
   const toggleDialog = () => {
     setDialog((prevState) => ({
       ...prevState,
@@ -164,7 +155,7 @@ export default function AuthPage() {
             />
             <BaseInput
               name="email"
-              placeHolder="johndoe@placeholder.com"
+              placeHolder="johndoe@gmail.com"
               label="Email"
               errorText=""
               onChange={(event) => updateFormDataHandler(event, "email")}
@@ -174,7 +165,7 @@ export default function AuthPage() {
             <BaseInput
               name="phone"
               isHidden={!isNewUser}
-              placeHolder="+91 9999999999"
+              placeHolder="981XXXX241"
               label="Phone"
               errorText=""
               onChange={(event) => updateFormDataHandler(event, "phone")}

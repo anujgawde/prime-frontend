@@ -8,11 +8,11 @@ export default function DocumentEditorPage() {
   const { id } = useParams();
   const [socketIdentifier, setSocketIdentifier] = useState();
   const [customButtonClicked, setCustomButtonClicked] = useState();
-  const [documentName, setDocumentName] = useState("Untitled Document");
+  const [documentName, setDocumentName] = useState("Untitled");
 
   const onTitleBlur = () => {
     if (!documentName || !documentName.length > 0) {
-      setDocumentName("Untitled Document");
+      setDocumentName("Untitled");
     }
   };
 
@@ -36,17 +36,17 @@ export default function DocumentEditorPage() {
   return (
     <div className="w-full">
       <div className="bg-white py-4 flex items-center justify-center z-[9999] absolute h-[80px] left-0 right-0 border-b top-0">
-        <div className="absolute left-5">
+        {/* <div className="absolute left-5">
           <button
             onClick={() => navigate(-1)}
             className="appearance-none bg-transparent border-none p-2 rounded-xl focus:outline-none hover:bg-gray-200 "
           >
             <img className="h-8 w-8" src="/icons/base/arrow.svg" />
           </button>
-        </div>
+        </div> */}
         <input
           className="text-2xl text-center"
-          value={documentName ?? "Untitled Document"}
+          value={documentName ?? "Untitled"}
           onBlur={onTitleBlur}
           onChange={(e) => setDocumentName(e.target.value ?? "")}
         />

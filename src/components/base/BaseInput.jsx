@@ -6,6 +6,7 @@ export default function BaseInput({
   isHidden,
   name,
   onChange,
+  value,
 }) {
   return (
     <div className={`w-full ${isHidden ? "hidden" : ""}`}>
@@ -14,10 +15,11 @@ export default function BaseInput({
 
         <div className="rounded-md border">
           <input
+            value={value ?? ""}
             onChange={onChange}
             name={name}
             type={type ?? "text"}
-            className="w-full border-none px-4 py-2 rounded-md focus:outline-none"
+            className="w-full border-none px-4 py-2 rounded-md focus:outline-primary"
             placeholder={placeHolder}
           />
         </div>

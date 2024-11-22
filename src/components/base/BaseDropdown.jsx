@@ -29,7 +29,7 @@ export default function BaseDropdown({ children, activeDocument }) {
         className="items-center flex justify-between w-full p-2 cursor-pointer border"
         onClick={toggleDropdown}
       >
-        <div>{activeDocument?.name ?? "Select a Document"}</div>
+        <div>{activeDocument?.name ?? "Select a Template"}</div>
         <div>
           <img src="/icons/navbar/chevron-down.svg" />
         </div>

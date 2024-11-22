@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas"; // For rendering HTML to canvas
+import CreateTable from "../dialogs/documents/CreateTable";
 window.Quill = Quill;
 Quill.register("modules/imageResize", ImageResize);
 // modules = {
@@ -31,6 +32,7 @@ export default function EditorComponent({
   customButtonClicked,
 }) {
   const [quill, setQuill] = useState();
+  const [isCreateTableDialogOpen, setIsCreateTableDialogOpen] = useState();
   const [socket, setSocket] = useState();
   const { id: documentId, templateId } = useParams();
 
@@ -133,14 +135,11 @@ export default function EditorComponent({
     if (socket == null || quill == null) return;
     socket.emit(
       `update-${socketIdentifier}-${documentId}-details`,
-      documentName ?? "Untitled Document"
+      documentName ?? "Untitled"
     );
   }, [documentName]);
 
-  const insertTable = () => {
-    const rows = prompt("Enter number of rows:");
-    const columns = prompt("Enter number of columns:");
-
+  const insertTable = (rows, columns) => {
     let table = "<table class='custom-table'>";
     for (let i = 0; i < rows; i++) {
       table += "<tr class='custom-row'>";
@@ -152,6 +151,7 @@ export default function EditorComponent({
     table += "</table>";
 
     quill.clipboard.dangerouslyPasteHTML(quill.getLength(), table);
+    setIsCreateTableDialogOpen(false);
   };
 
   useEffect(() => {
@@ -182,7 +182,7 @@ export default function EditorComponent({
         handleFileChange(buttonData.data);
         break;
       case "table":
-        insertTable();
+        setIsCreateTableDialogOpen(true);
         break;
       case "print":
         downloadPDF();
@@ -243,6 +243,15 @@ export default function EditorComponent({
       <label htmlFor="cameraInput">
         <button>Capture Image</button>
       </label> */}
+
+      {isCreateTableDialogOpen && (
+        <CreateTable
+          insertTable={insertTable}
+          toggleDialog={() => {
+            setIsCreateTableDialogOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 }

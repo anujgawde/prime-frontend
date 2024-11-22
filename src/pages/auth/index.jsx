@@ -24,7 +24,8 @@ export default function AuthPage() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [newUserData, setNewUserData] = useState({
-    fullName: null,
+    firstName: null,
+    lastName: null,
     email: null,
     phone: null,
     password: null,
@@ -38,8 +39,8 @@ export default function AuthPage() {
   // Functions:
   const signupHandler = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       if (newUserData.confirmPassword !== newUserData.password) {
         setDialog({
           state: true,
@@ -55,26 +56,17 @@ export default function AuthPage() {
       const res = await createUser({
         _id: signupResponse.user.uid,
         basicInformation: {
-          firstName: newUserData.fullName?.split(" ")[0],
-          lastName: newUserData.fullName?.split(" ")[1] ?? "",
+          firstName: newUserData.firstName,
+          lastName: newUserData.lastName,
           email: newUserData.email,
         },
         contactInformation: {
           address: null,
           phoneNumber: newUserData.phone,
         },
-        rolePermissions: {
-          role: "admin",
-          permissions: ["edit", "view"],
-        },
-        employmentDetails: {
-          department: null,
-          employeeId: "",
-        },
       });
       window.location.reload();
       navigate("/");
-      setIsLoading(false);
     } catch (e) {
       // Open Dialog Here
       console.log("now error", e);
@@ -84,20 +76,19 @@ export default function AuthPage() {
         title: "Something went wrong!",
       });
     }
+    setIsLoading(false);
   };
 
   const signInHandler = async (event) => {
     event.preventDefault();
-
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const signInResponse = await signInWithEmailAndPasswordHandler(
         existingUserData.email,
         existingUserData.password
       );
       window.location.reload();
       navigate("/");
-      setIsLoading(false);
     } catch (e) {
       console.log("now error", e);
       setDialog({
@@ -106,6 +97,7 @@ export default function AuthPage() {
         title: "Something went wrong!",
       });
     }
+    setIsLoading(false);
   };
 
   const updateFormDataHandler = (event, inputKey) => {
@@ -141,19 +133,41 @@ export default function AuthPage() {
             } mx-4 md:mx-8 w-full md:w-2/3 xl:w-1/3 border-0 md:border rounded-xl md:px-8 py-12 space-y-4 md:space-y-4 bg-white flex-col flex items-center`}
           >
             <p className="text-4xl font-thin text-center">
-              Prime Reports
+              P R <span className="text-primary font-extralight">I </span> M E
               {/* <span className="italic">Org</span> */}
             </p>
+            {isNewUser && (
+              <div className="flex items-center justify-between w-full space-x-2">
+                <div className="w-1/2">
+                  <BaseInput
+                    value={newUserData.firstName}
+                    name="firstName"
+                    placeHolder="John"
+                    label="First Name"
+                    errorText=""
+                    onChange={(event) =>
+                      updateFormDataHandler(event, "firstName")
+                    }
+                    type={undefined}
+                  />
+                </div>
+                <div className="w-1/2">
+                  <BaseInput
+                    value={newUserData.lastName}
+                    name="lastName"
+                    placeHolder="Doe"
+                    label="Last Name"
+                    errorText=""
+                    onChange={(event) =>
+                      updateFormDataHandler(event, "lastName")
+                    }
+                    type={undefined}
+                  />
+                </div>
+              </div>
+            )}
             <BaseInput
-              name="fullName"
-              isHidden={!isNewUser}
-              placeHolder="John Doe"
-              label="Full Name"
-              errorText=""
-              onChange={(event) => updateFormDataHandler(event, "fullName")}
-              type={undefined}
-            />
-            <BaseInput
+              value={isNewUser ? newUserData.email : existingUserData.email}
               name="email"
               placeHolder="johndoe@gmail.com"
               label="Email"
@@ -163,6 +177,7 @@ export default function AuthPage() {
               isHidden={undefined}
             />
             <BaseInput
+              value={newUserData.phone}
               name="phone"
               isHidden={!isNewUser}
               placeHolder="981XXXX241"
@@ -172,6 +187,9 @@ export default function AuthPage() {
               type={undefined}
             />
             <BaseInput
+              value={
+                isNewUser ? newUserData.password : existingUserData.password
+              }
               name="password"
               placeHolder="Must have at least 6 characters"
               label="Password"
@@ -181,6 +199,7 @@ export default function AuthPage() {
               isHidden={undefined}
             />
             <BaseInput
+              value={newUserData.confirmPassword}
               name="confirmPassword"
               isHidden={!isNewUser}
               placeHolder=""
@@ -202,7 +221,17 @@ export default function AuthPage() {
                 Don&apos;t have an account yet?{" "}
                 <span
                   className="cursor-pointer underline"
-                  onClick={() => setIsNewUser(!isNewUser)}
+                  onClick={() => {
+                    setNewUserData({
+                      firstName: null,
+                      lastName: null,
+                      email: null,
+                      phone: null,
+                      password: null,
+                      confirmPassword: null,
+                    });
+                    setIsNewUser(!isNewUser);
+                  }}
                 >
                   Sign Up!
                 </span>
@@ -212,7 +241,13 @@ export default function AuthPage() {
                 Already a user?{" "}
                 <span
                   className="cursor-pointer underline"
-                  onClick={() => setIsNewUser(!isNewUser)}
+                  onClick={() => {
+                    setExistingUserData({
+                      email: null,
+                      password: null,
+                    });
+                    setIsNewUser(!isNewUser);
+                  }}
                 >
                   Sign in!
                 </span>

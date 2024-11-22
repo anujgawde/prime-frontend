@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import EditorComponent from "../../../components/editor/Editor";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 export default function TemplateEditorPage() {
   const location = useLocation();
-  const navigate = useNavigate();
   const { id } = useParams();
   const [socketIdentifier, setSocketIdentifier] = useState();
   const [customButtonClicked, setCustomButtonClicked] = useState();
-  const [templateName, setTemplateName] = useState("Untitled Document");
+  const [templateName, setTemplateName] = useState("Untitled");
 
   const onTitleBlur = () => {
     if (!templateName || !templateName.length > 0) {
-      setTemplateName("Untitled Document");
+      setTemplateName("Untitled");
     }
   };
 
@@ -36,17 +35,17 @@ export default function TemplateEditorPage() {
   return (
     <div className="w-full">
       <div className="bg-white py-4 flex items-center justify-center  z-[9999] absolute h-[80px] left-0 right-0 border-b top-0">
-        <div className="absolute left-5">
+        {/* <div className="absolute left-5">
           <button
             onClick={() => navigate(-1)}
             className="appearance-none bg-transparent border-none p-2 rounded-xl focus:outline-none hover:bg-gray-200 "
           >
             <img className="h-8 w-8" src="/icons/base/arrow.svg" />
           </button>
-        </div>
+        </div> */}
         <input
           className="text-2xl text-center"
-          value={templateName ?? "Untitled Document"}
+          value={templateName ?? "Untitled"}
           onBlur={onTitleBlur}
           onChange={(e) => setTemplateName(e.target.value ?? "")}
         />

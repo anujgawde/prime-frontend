@@ -76,9 +76,9 @@ export default function Sidebar() {
       <div>
         <div className="flex items-center justify-center h-[80px]">
           <p className="font-thin text-4xl justify-around md:flex w-full px-8 hidden">
-            <span className="text-primary">P</span>
+            <span>P</span>
             <span>R</span>
-            <span>I</span>
+            <span className="text-primary font-extralight">I</span>
             <span>M</span>
             <span>E</span>
           </p>
@@ -98,9 +98,9 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {/* <p className="text-gray-400 py-8">
-        version <span className="text-sm">1</span>
-      </p> */}
+      <p className="text-gray-400 py-8">
+        v<span className="text-sm"> 1.0</span>
+      </p>
 
       {isCreateDocumentOpen && (
         <CreateDocument

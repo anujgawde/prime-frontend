@@ -31,3 +31,8 @@ export const getUserDocsAggregate = async (userId) => {
   const response = await api.post(`/users/document-template-aggregate`, data);
   return response;
 };
+
+export const updateUserProfile = async (userData) => {
+  const response = await api.post("/users/update-user-profile", userData);
+  return response;
+};

@@ -8,9 +8,9 @@ export default function ComingSoonPage() {
   };
 
   const upcomingFeatures = [
-    "Voice Enabled Inputs",
-    "Collaborative Document Creation",
+    "Collaborative Contributions",
     "Document History Tracking",
+    "Resource Permissions",
   ];
 
   return (

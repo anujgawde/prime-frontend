@@ -7,17 +7,17 @@ export default function InfoPage() {
   };
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-4xl py-6 text-center fixed top-0 flex items-center justify-center w-full bg-">
+      <h1 className="text-4xl py-6 text-center fixed top-0 flex items-center justify-center w-full">
         About
-        <span className="font-thin mx-2 text-primary">P R I M E</span>
+        <p className="mx-2 font-thin">
+          P R <span className=" text-primary font-extralight">I </span>M E
+        </p>
       </h1>
 
       <div className="flex justify-center mt-16">
         <div className="max-w-4xl">
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">
-              Welcome to Our Platform
-            </h2>
+            <h2 className="text-2xl font-semibold mb-4">Welcome</h2>
             <p className="text-muted-foreground">
               {/* Prime is a powerful tool designed to streamline the creation of
               daily document templates. Users can easily update content in real

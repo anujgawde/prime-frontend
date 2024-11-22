@@ -44,18 +44,19 @@ const DocumentCard = (props) => {
 
         <div className="flex items-center">
           <BaseMenu iconSrc="/icons/base/ellipsis.svg">
-            {/* TODO: Integrate with backend api for sending emails */}
-            {/* <button
-              className="block w-full text-left px-4 py-2 hover:bg-gray-100 border-none text-black"
-              onClick={() => props.share("email")}
+            <Link
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100 border-none"
+              to={props.navigate}
+              target="_blank"
             >
-              Share via Email
-            </button> */}
+              Open in New Tab
+            </Link>
+
             <button
               className="block w-full text-left px-4 py-2 hover:bg-gray-100 border-none text-red-600"
               onClick={() => props.deleteDocumentHandler(props.id)}
             >
-              Delete
+              Remove
             </button>
           </BaseMenu>
         </div>

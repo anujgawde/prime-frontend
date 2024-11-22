@@ -83,7 +83,7 @@ export default function HomePage() {
         },
         title: {
           display: true,
-          text: "Monthly Counts",
+          text: `Statistics for ${new Date().getFullYear()}`,
         },
       },
     };
@@ -98,66 +98,71 @@ export default function HomePage() {
     fetchAggregateDocuments(auth.currentUser._id);
   }, []);
   return (
-    <div className="p-4 md:p-10">
+    <div className="p-4 md:p-10 h-full">
       {/* <Link to={`/documents/${uuidv4()}`}>
         <BaseButton buttonText="Create Template" />
       </Link> */}
 
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 gap-8 h-full">
         {/* Recent 10 Documents */}
-        <div className="bg-white rounded-xl">
-          {/* Section Title */}
-          <div className="py-4 px-8 text-2xl font-semibold border-b">
-            Recent Documents
-          </div>
-          {/* Section Content */}
-          <div className="h-52 max-h-52 overflow-y-auto">
-            {recentDocuments.map((recentDocument) => (
-              <div
-                onClick={() =>
-                  navigate(
-                    `/documents/${recentDocument.templateId}/${recentDocument._id}`
-                  )
-                }
-                key={recentDocument._id}
-                className="w-full py-2 hover:bg-gray-200 px-8 cursor-pointer"
-              >
-                <p>{recentDocument.name}</p>
-                <p className="m-0 text-xs">
-                  Updated on {formatDate(recentDocument.modifiedAt)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-        {/* Top 3 Templates */}
-        <div className="bg-white rounded-xl">
-          {/* Section Title */}
-          <div className="py-4 px-8 text-2xl font-semibold border-b">
-            Most Used Templates
-          </div>
-          {/* Section Content */}
-          <div className="overflow-y-auto h-52 max-h-52">
-            {topTemplates.map((topTemplate) => (
-              <div
-                onClick={() => navigate(`/templates/${topTemplate._id}`)}
-                key={topTemplate._id}
-                className="w-full py-2 hover:bg-gray-200 px-8 cursor-pointer"
-              >
-                <p>{topTemplate.name}</p>
-                <p className="m-0 text-xs">
-                  Updated on {formatDate(topTemplate.modifiedAt)}
-                </p>
-              </div>
-            ))}
+        <div className="h-full">
+          <div className="bg-white h-full rounded-xl">
+            {/* Section Title */}
+            <div className="py-4 px-8 text-2xl font-semibold border-b">
+              Recent Documents
+            </div>
+            {/* Section Content */}
+            <div className=" overflow-y-auto">
+              {recentDocuments.map((recentDocument) => (
+                <div
+                  onClick={() =>
+                    navigate(
+                      `/documents/${recentDocument.templateId}/${recentDocument._id}`
+                    )
+                  }
+                  key={recentDocument._id}
+                  className="w-full py-2 hover:bg-gray-200 px-8 cursor-pointer"
+                >
+                  <p>{recentDocument.name}</p>
+                  <p className="m-0 text-xs">
+                    Updated on {formatDate(recentDocument.modifiedAt)}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Chart */}
-        <div className="bg-white rounded-xl p-4 hidden md:block">
-          {chartData && chartOptions && (
-            <Bar data={chartData} options={chartOptions} />
-          )}
+        <div className="h-full flex justify-between flex-col space-y-2">
+          {/* Top 3 Templates */}
+          <div className="bg-white h-1/2 rounded-xl">
+            {/* Section Title */}
+            <div className="py-4 px-8 text-2xl font-semibold border-b">
+              Most Used Templates
+            </div>
+            {/* Section Content */}
+            <div className="overflow-y-auto h-52 max-h-52">
+              {topTemplates.map((topTemplate) => (
+                <div
+                  onClick={() => navigate(`/templates/${topTemplate._id}`)}
+                  key={topTemplate._id}
+                  className="w-full py-2 hover:bg-gray-200 px-8 cursor-pointer"
+                >
+                  <p>{topTemplate.name}</p>
+                  <p className="m-0 text-xs">
+                    Updated on {formatDate(topTemplate.modifiedAt)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Chart */}
+          <div className="bg-white h-1/2 rounded-xl p-4  hidden md:block">
+            {chartData && chartOptions && (
+              <Bar data={chartData} options={chartOptions} />
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -23,6 +23,7 @@ export default function CreateTable({ insertTable, toggleDialog }) {
         <div className="text-2xl">Add Table</div>
 
         <BaseInput
+          value={rows}
           name="rowCount"
           placeHolder=""
           label="Number of Rows"
@@ -30,9 +31,10 @@ export default function CreateTable({ insertTable, toggleDialog }) {
           onChange={(event) => {
             setRows(event.target.value);
           }}
-          type={undefined}
+          type={"number"}
         />
         <BaseInput
+          value={columns}
           name="colCount"
           placeHolder=""
           label="Number of Columns"
@@ -40,7 +42,7 @@ export default function CreateTable({ insertTable, toggleDialog }) {
           onChange={(event) => {
             setColumns(event.target.value);
           }}
-          type={undefined}
+          type={"number"}
         />
 
         {/* Dialog CTA */}
